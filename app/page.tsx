@@ -67,7 +67,7 @@ const { data, error } = await supabase.auth.signUp({
 
         const { data: profile, error: profileError } = await supabase
           .from("profiles")
-          .select("username, is_approved")
+         .select("username, is_approved, is_admin")
           .eq("id", user.id)
           .maybeSingle();
 
