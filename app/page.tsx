@@ -72,7 +72,12 @@ const { data, error } = await supabase.auth.signUp({
           .maybeSingle();
 
         if (profileError) throw profileError;
-
+console.log("LOGIN-DIAGNOSE:", {
+  username: profile?.username,
+  is_approved: profile?.is_approved,
+  is_admin: profile?.is_admin,
+  user_id: user.id,
+});
         if (!profile) {
           const { error: insertError } = await supabase
             .from("profiles")
@@ -95,7 +100,11 @@ const { data, error } = await supabase.auth.signUp({
           return;
         }
 
-router.push("/admin");      }
+if (profile.is_admin) {
+  router.push("/admin");
+} else {
+  router.push("/community");
+} }
 } catch (error: any) {
   console.log("GENAUER FEHLER:", error);
   setMessage(error.message || "Unbekannter Fehler");
